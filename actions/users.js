@@ -1,14 +1,8 @@
 import useSWR from "swr";
-import axios from "axios";
 
 export function useUsers() {
   const url = `/users?_sort=createdAt&_order=desc`;
-  const fetcher = async (key) => {
-    const res = await axios.get(key);
-    return res.data;
-  };
-
-  const { data, error } = useSWR(url, fetcher);
+  const { data, error } = useSWR(url);
 
   return {
     users: data,
@@ -19,12 +13,7 @@ export function useUsers() {
 
 export function useUser(id) {
   const url = `/users/${id}`;
-  const fetcher = async (key) => {
-    const res = await axios.get(key);
-    return res.data;
-  };
-
-  const { data, error } = useSWR(url, fetcher);
+  const { data, error } = useSWR(url);
 
   return {
     user: data,

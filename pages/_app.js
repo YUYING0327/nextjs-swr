@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SWRConfig } from "swr";
 import Head from "next/head";
 import Header from "../components/Header";
 import "../styles/globals.css";
@@ -7,7 +8,12 @@ axios.defaults.baseURL = "http://localhost:5000";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <SWRConfig
+      value={{
+        fetcher: (url) => axios(url).then((res) => res.data),
+        dedupingInterval: 10000,
+      }}
+    >
       <Head>
         <link
           rel='stylesheet'
@@ -19,7 +25,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <Header />
       <Component {...pageProps} />
-    </>
+    </SWRConfig>
   );
 }
 
