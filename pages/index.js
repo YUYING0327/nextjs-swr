@@ -1,19 +1,25 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Page from "../components/Page";
 
 export default function Home() {
   const [users, setUsers] = useState([[]]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/users");
+      setLoading(true);
+      const res = await axios.get("/users?_sort=createdAt&_order=desc");
       console.log(res);
       setUsers(res.data);
+      setLoading(false);
     };
 
     fetchData();
   }, []);
+
+  if (loading) return <h2>Loading...</h2>;
 
   return (
     <div>
@@ -23,7 +29,9 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main></main>
+      <main>
+        <Page users={users} />
+      </main>
     </div>
   );
 }
