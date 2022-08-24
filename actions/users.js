@@ -12,8 +12,7 @@ export function useUsers() {
 }
 
 export function useUser(id) {
-  const url = `/users/${id}`;
-  const { data, error } = useSWR(url);
+  const { data, error } = useSWR(id ? `/users/${id}` : null);
 
   return {
     user: data,

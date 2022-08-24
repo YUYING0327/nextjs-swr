@@ -12,6 +12,9 @@ function MyApp({ Component, pageProps }) {
       value={{
         fetcher: (url) => axios(url).then((res) => res.data),
         dedupingInterval: 10000,
+        revalidateIfStale: false,
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false,
       }}
     >
       <Head>
