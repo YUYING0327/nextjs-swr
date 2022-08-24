@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Page from "../components/Page";
+import Loading from "../components/Loading";
 
 export default function Home() {
   const [users, setUsers] = useState([[]]);
@@ -11,7 +12,6 @@ export default function Home() {
     const fetchData = async () => {
       setLoading(true);
       const res = await axios.get("/users?_sort=createdAt&_order=desc");
-      console.log(res);
       setUsers(res.data);
       setLoading(false);
     };
@@ -19,7 +19,7 @@ export default function Home() {
     fetchData();
   }, []);
 
-  if (loading) return <h2>Loading...</h2>;
+  if (loading) return <Loading />;
 
   return (
     <div>
