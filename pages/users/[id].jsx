@@ -1,27 +1,17 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/router";
 import Loading from "../../components/Loading";
 import Card from "../../components/Card";
+import { useUser } from "../../actions/users";
 
 const User = () => {
-  const [user, setUser] = useState(null);
-
   const router = useRouter();
   const { id } = router.query;
 
-  useEffect(() => {
-    if (!id) return;
+  const { user, isError, isLoading } = useUser(id);
 
-    const fetchUser = async () => {
-      const res = await axios.get(`users/${id}`);
-      setUser(res.data);
-    };
+  if (isError) return <h2>{isError}</h2>;
 
-    fetchUser();
-  }, [id]);
-
-  if (!user) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return <div>{user && <Card user={user} />}</div>;
 };
